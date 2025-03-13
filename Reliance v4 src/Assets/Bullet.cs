@@ -13,6 +13,8 @@ public class Bullet : MonoBehaviour
     
     AudioSource audioSource;
 
+    
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -47,9 +49,22 @@ public class Bullet : MonoBehaviour
             // We hit a platform, let's destroy both of us
             // We must use a global audio source becase we will destry ourselves immediately, and
             // and the audio wouldn't play
+            
             GlobalManager.Instance.AudioSource.PlayOneShot(PlatformHitSound);
             Destroy(gameObject);
-            Destroy(platform.gameObject);
+            //now also checks if platforms should be invulnerable or also be destroyed
+            if (GlobalManager.Instance.platformInvulnerable)
+            {
+                //do nothing
+                
+            }
+            else
+            {
+                //destroy the platform
+                Destroy(platform.gameObject);
+            }
+
+            
         }
     }
 }

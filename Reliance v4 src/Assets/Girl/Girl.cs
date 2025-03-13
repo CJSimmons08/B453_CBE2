@@ -48,6 +48,9 @@ public class Girl : MonoBehaviour
     Animator animator;
     AudioSource audioSource;
     
+    //Variables added by Connor Simmons:
+    [SerializeField] float platformInvulnDuration;
+    
 
     //Coroutine currentRespawnAnimation;
 
@@ -268,4 +271,23 @@ public class Girl : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
         }
     }
+    
+    //Functions Added by Connor Simmons:
+
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("PlatformInvuln"))
+        {
+            GlobalManager.Instance.platformInvulnerable = true;
+            Destroy(other.gameObject);
+            StartCoroutine(PlatformInvulnDuration());
+        }
+    }
+
+    IEnumerator PlatformInvulnDuration()
+    {
+        yield return new WaitForSeconds(platformInvulnDuration);
+        GlobalManager.Instance.platformInvulnerable = false;
+    }
+
 }

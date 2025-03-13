@@ -30,6 +30,10 @@ public class GlobalManager : MonoBehaviour
 
     public int Altitude { get; protected set; }
 
+    
+    //Variables added by Connor Simmons:
+    public bool platformInvulnerable = false;
+    
     private void Awake()
     {
         Instance = this;
