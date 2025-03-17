@@ -8,6 +8,7 @@ TagManager:
   - eraser
   - PlatformInvuln
   - GirlChar
+  - HealItem
   layers:
   - Default
   - TransparentFX

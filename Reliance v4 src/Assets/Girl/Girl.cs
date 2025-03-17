@@ -50,6 +50,8 @@ public class Girl : MonoBehaviour
     
     //Variables added by Connor Simmons:
     [SerializeField] float platformInvulnDuration;
+    [SerializeField] private int maxHearts;
+    private int currentHearts;
     
 
     //Coroutine currentRespawnAnimation;
@@ -66,7 +68,7 @@ public class Girl : MonoBehaviour
     private void Start()
     {
         reloadManager = FindObjectOfType<ReloadManager>();
-        //remainigLife = UiHearts.Length;
+        currentHearts = maxHearts;
     }
 
     // Update is called once per frame
@@ -131,19 +133,25 @@ public class Girl : MonoBehaviour
     {
         if (recoveringFromDamage) return GirlDamageTaken.NoDamage;
 
-        if (RemainigHearts.Count == 1)
+        if (currentHearts == 1)
         {
             reloadManager.Died();
             return GirlDamageTaken.Died;
         }
         else
         {
-            var rightmostHeart = RemainigHearts[RemainigHearts.Count - 1];
+            var rightmostHeart = RemainigHearts[currentHearts - 1];
             rightmostHeart.SetActive(false);
-            RemainigHearts.RemoveAt(RemainigHearts.Count - 1);
+            currentHearts--;
+            //RemainigHearts.RemoveAt(RemainigHearts.Count - 1);
             StartCoroutine(DamageTakingAnimation());
 
-            if (RemainigHearts.Count == 1)
+            // if (RemainigHearts.Count == 1)
+            // {
+            //     StartCoroutine(BlinkHeartAnimation(RemainigHearts[0].GetComponent<Image>()));
+            // }
+
+            if (currentHearts == 1)
             {
                 StartCoroutine(BlinkHeartAnimation(RemainigHearts[0].GetComponent<Image>()));
             }
@@ -281,6 +289,20 @@ public class Girl : MonoBehaviour
             GlobalManager.Instance.platformInvulnerable = true;
             Destroy(other.gameObject);
             StartCoroutine(PlatformInvulnDuration());
+        }
+        else if (other.CompareTag("HealItem"))
+        {
+            Destroy(other.gameObject);
+            if (currentHearts == maxHearts)
+            {
+                //do nothing, no heal received
+            }
+            else
+            {
+                print("Getting healed");
+                RemainigHearts[currentHearts - 1].SetActive(true);
+                currentHearts++;
+            }
         }
     }
 
