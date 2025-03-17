@@ -33,6 +33,8 @@ public class GlobalManager : MonoBehaviour
     
     //Variables added by Connor Simmons:
     public bool platformInvulnerable = false;
+    public bool robotStunned = false;
+    [SerializeField] private float stunDuration;
     
     private void Awake()
     {
@@ -97,15 +99,25 @@ public class GlobalManager : MonoBehaviour
     }
 
     internal float GetBulletSpeed() => BulletSpeed;
-
+    
     private IEnumerator BulletShooter()
     {
         while (true)
         {
+
             float height = Mathf.Max(0, Camera.main.transform.position.y / 50);
             float adjustedReloadTime = ReloadTime * 2 / (Mathf.Pow(height, 2) + 2);
             yield return new WaitForSeconds(adjustedReloadTime);
-            Shoot();
+            
+            //note: stun should/does not stop robot from moving, just stops him shooting for a time
+            if (robotStunned)
+            {
+                //don't shoot
+            }
+            else
+            {
+                Shoot();
+            }
         }
     }
 
@@ -140,4 +152,20 @@ public class GlobalManager : MonoBehaviour
     {
         Application.Quit();
     }
+    
+    //Functions Added by Connor Simmons:
+    
+    public void StartStunDuration()
+    {
+        StartCoroutine(StunDuration());
+    }
+
+    IEnumerator StunDuration()
+    {
+        robotStunned = true;
+        print($"robotStunned: {robotStunned}");
+        yield return new WaitForSeconds(stunDuration);
+        robotStunned = false;
+    }
+    
 }

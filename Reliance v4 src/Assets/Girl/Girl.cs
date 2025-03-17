@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,7 +52,13 @@ public class Girl : MonoBehaviour
     //Variables added by Connor Simmons:
     [SerializeField] float platformInvulnDuration;
     [SerializeField] private int maxHearts;
+    [SerializeField] private float stunShooterDuration;
+    [SerializeField] private float stunLaserSpeed;
+    [SerializeField] private float stunLaserShootSpeed;
+    [SerializeField] private GameObject stunLaserPrefab;
+    [SerializeField] private GameObject robot;
     private int currentHearts;
+    private bool canStunRobot = false;
     
 
     //Coroutine currentRespawnAnimation;
@@ -81,6 +88,10 @@ public class Girl : MonoBehaviour
     {
         ControlMovement();
         CheckFallen();
+        if (canStunRobot)
+        {
+            
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -284,27 +295,65 @@ public class Girl : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("PlatformInvuln"))
+
+        switch (other.tag)
         {
-            GlobalManager.Instance.platformInvulnerable = true;
-            Destroy(other.gameObject);
-            StartCoroutine(PlatformInvulnDuration());
-        }
-        else if (other.CompareTag("HealItem"))
-        {
-            Destroy(other.gameObject);
-            if (currentHearts == maxHearts)
-            {
-                //do nothing, no heal received
-            }
-            else
-            {
-                print("Getting healed");
-                RemainigHearts[currentHearts - 1].SetActive(true);
-                currentHearts++;
-            }
+            case "PlatformInvuln":
+                PlatformInvulnerable();
+                Destroy(other.gameObject);
+                break;
+            case "HealItem":
+                HealItem();
+                Destroy(other.gameObject);
+                break;
+            case "StunRobotItem":
+                canStunRobot = true;
+                StartCoroutine(StunShooter());
+                StartCoroutine(StunShooterDuration());
+                Destroy(other.gameObject);
+                break;
+            default:
+                //do nothing
+                break;
         }
     }
+
+    private void PlatformInvulnerable()
+    {
+        GlobalManager.Instance.platformInvulnerable = true;
+        StartCoroutine(PlatformInvulnDuration());
+    }
+
+    private void HealItem()
+    {
+        if (currentHearts == maxHearts)
+        {
+            //do nothing, no heal received
+        }
+        else
+        {
+            RemainigHearts[currentHearts - 1].SetActive(true);
+            currentHearts++;
+        }
+    }
+
+    IEnumerator StunShooter()
+    {
+        while (canStunRobot)
+        {
+            var stunLaser = Instantiate(stunLaserPrefab, transform.position, Quaternion.identity);
+            stunLaser.GetComponent<StunLaser>().Velocity = robot.transform.position * stunLaserSpeed * Time.deltaTime;
+            yield return new WaitForSeconds(stunLaserShootSpeed);
+        }
+    }
+
+
+    IEnumerator StunShooterDuration()
+    {
+        yield return new WaitForSeconds(stunShooterDuration);
+        canStunRobot = false;
+    }
+
 
     IEnumerator PlatformInvulnDuration()
     {

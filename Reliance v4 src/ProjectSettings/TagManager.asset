@@ -9,6 +9,8 @@ TagManager:
   - PlatformInvuln
   - GirlChar
   - HealItem
+  - StunRobotItem
+  - Robot
   layers:
   - Default
   - TransparentFX
