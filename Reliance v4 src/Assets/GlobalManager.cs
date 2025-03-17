@@ -163,7 +163,7 @@ public class GlobalManager : MonoBehaviour
     IEnumerator StunDuration()
     {
         robotStunned = true;
-        print($"robotStunned: {robotStunned}");
+        Debug.Log("Stunned");
         yield return new WaitForSeconds(stunDuration);
         robotStunned = false;
     }

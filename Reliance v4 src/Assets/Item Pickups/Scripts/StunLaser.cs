@@ -32,7 +32,7 @@ public class StunLaser : MonoBehaviour
     {
         if (other.CompareTag("Robot"))
         {
-            print("Robot hit by laser");
+            Debug.Log("Hit Robot with laser");
             GlobalManager.Instance.StartStunDuration();
             Destroy(gameObject);
         }

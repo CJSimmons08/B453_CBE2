@@ -5846,7 +5846,7 @@ MonoBehaviour:
   platformInvulnDuration: 10
   maxHearts: 4
   stunShooterDuration: 30
-  stunLaserSpeed: 3
+  stunLaserSpeed: 2
   stunLaserShootSpeed: 3
   stunLaserPrefab: {fileID: 5097359688598064129, guid: 1abf26aad2b30407f89d769c89718f23, type: 3}
   robot: {fileID: 89924121}

@@ -342,7 +342,7 @@ public class Girl : MonoBehaviour
         while (canStunRobot)
         {
             var stunLaser = Instantiate(stunLaserPrefab, transform.position, Quaternion.identity);
-            stunLaser.GetComponent<StunLaser>().Velocity = robot.transform.position * stunLaserSpeed * Time.deltaTime;
+            stunLaser.GetComponent<StunLaser>().Velocity = robot.transform.position * stunLaserSpeed;
             yield return new WaitForSeconds(stunLaserShootSpeed);
         }
     }
