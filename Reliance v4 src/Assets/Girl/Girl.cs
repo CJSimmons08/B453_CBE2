@@ -88,10 +88,6 @@ public class Girl : MonoBehaviour
     {
         ControlMovement();
         CheckFallen();
-        if (canStunRobot)
-        {
-            
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -342,7 +338,7 @@ public class Girl : MonoBehaviour
         while (canStunRobot)
         {
             var stunLaser = Instantiate(stunLaserPrefab, transform.position, Quaternion.identity);
-            stunLaser.GetComponent<StunLaser>().Velocity = robot.transform.position * stunLaserSpeed;
+            stunLaser.GetComponent<StunLaser>().Velocity = (robot.transform.position - transform.position) * stunLaserSpeed;
             yield return new WaitForSeconds(stunLaserShootSpeed);
         }
     }

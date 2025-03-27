@@ -36,6 +36,10 @@ public class StunLaser : MonoBehaviour
             GlobalManager.Instance.StartStunDuration();
             Destroy(gameObject);
         }
+        else if (other.CompareTag("Platform"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
 

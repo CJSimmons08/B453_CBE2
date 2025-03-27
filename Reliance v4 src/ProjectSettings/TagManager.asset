@@ -11,6 +11,7 @@ TagManager:
   - HealItem
   - StunRobotItem
   - Robot
+  - Platform
   layers:
   - Default
   - TransparentFX
