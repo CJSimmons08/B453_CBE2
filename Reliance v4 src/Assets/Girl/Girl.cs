@@ -57,6 +57,7 @@ public class Girl : MonoBehaviour
     [SerializeField] private float stunLaserShootSpeed;
     [SerializeField] private GameObject stunLaserPrefab;
     [SerializeField] private GameObject robot;
+    [SerializeField] private float distPushedDown;   
     private int currentHearts;
     private bool canStunRobot = false;
     
@@ -328,9 +329,14 @@ public class Girl : MonoBehaviour
         }
         else
         {
-            RemainigHearts[currentHearts - 1].SetActive(true);
+            RemainigHearts[currentHearts].SetActive(true);
             currentHearts++;
         }
+    }
+
+    public void PushCharacterDown()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y - distPushedDown, transform.position.z);
     }
 
     IEnumerator StunShooter()

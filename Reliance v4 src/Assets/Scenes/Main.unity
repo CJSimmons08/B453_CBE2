@@ -5850,6 +5850,7 @@ MonoBehaviour:
   stunLaserShootSpeed: 3
   stunLaserPrefab: {fileID: 5097359688598064129, guid: 1abf26aad2b30407f89d769c89718f23, type: 3}
   robot: {fileID: 89924121}
+  distPushedDown: 2
 --- !u!95 &1606368691
 Animator:
   serializedVersion: 3
@@ -7109,6 +7110,7 @@ MonoBehaviour:
   LeftWall: {fileID: 2008276456}
   RightWall: {fileID: 757787823}
   Platform: {fileID: 5443479100432253951, guid: cc321b9356cffef4b8798dea61fd0faa, type: 3}
+  girlCharacter: {fileID: 1606368690}
 --- !u!61 &1890080785
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7119,7 +7121,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 2.01}

@@ -13,6 +13,11 @@ public class Demon : MonoBehaviour
     public GameObject Platform;
 
     AudioSource audioSource;
+    
+    //Variables added by Connor Simmons:
+    private bool platformOverlappingCharacter = false;
+    [SerializeField] Girl girlCharacter; 
+
 
     // Start is called before the first frame update
     void Start()
@@ -63,9 +68,33 @@ public class Demon : MonoBehaviour
     }
     private void PlacePlatform()
     {
+        if (platformOverlappingCharacter)
+        {
+            //still place platform but also push girl character down
+            girlCharacter.PushCharacterDown();
+        }
+
         audioSource.Play();
         var offset = new Vector3(0, 2, 0);
         var platformPos = transform.position + offset;
         Instantiate(Platform, platformPos, Quaternion.identity);
+    }
+
+    //Functions Added by Connor Simmons
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("GirlChar"))
+        {
+            platformOverlappingCharacter = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("GirlChar") && platformOverlappingCharacter)
+        {
+            platformOverlappingCharacter = false;
+        }
     }
 }
