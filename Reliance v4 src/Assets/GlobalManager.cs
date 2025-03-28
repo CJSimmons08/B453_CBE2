@@ -155,11 +155,13 @@ public class GlobalManager : MonoBehaviour
     
     //Functions Added by Connor Simmons:
     
+    //public function used to start the stun duration 
     public void StartStunDuration()
     {
         StartCoroutine(StunDuration());
     }
 
+    //waits the duration of the stun then sets the robotStunned bool to false
     IEnumerator StunDuration()
     {
         robotStunned = true;

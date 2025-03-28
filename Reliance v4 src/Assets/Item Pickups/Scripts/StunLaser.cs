@@ -28,11 +28,12 @@ public class StunLaser : MonoBehaviour
         }
     }
 
+    //checks if the collider it his was the robot, if so, call StartStunDuration() and destroy stun laser.
+    //also checks if it hit a platform, if it did, destroy the laser but not the platform
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Robot"))
         {
-            Debug.Log("Hit Robot with laser");
             GlobalManager.Instance.StartStunDuration();
             Destroy(gameObject);
         }

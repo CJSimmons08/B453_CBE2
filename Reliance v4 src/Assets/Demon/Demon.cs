@@ -82,6 +82,7 @@ public class Demon : MonoBehaviour
 
     //Functions Added by Connor Simmons
     
+    //upon platform collider collision check if collided with the girl character, if so, set bool to true
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("GirlChar"))
@@ -90,6 +91,8 @@ public class Demon : MonoBehaviour
         }
     }
 
+    //upon another collider exiting the platforms, check if it was the girl character and if bool is true, if
+    //so, set bool back to false
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("GirlChar") && platformOverlappingCharacter)

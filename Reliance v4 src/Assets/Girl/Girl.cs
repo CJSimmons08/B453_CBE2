@@ -148,9 +148,15 @@ public class Girl : MonoBehaviour
         }
         else
         {
+            //The lines commented out here were lines from the original codebase that were the logic for
+            //keeping track of the characters hp. Since I had to edit this function and didnt want to claim 
+            //that i made the entire function by moving it to the section with my other functions I left them  
+            //in the code but commented out 
+            
             var rightmostHeart = RemainigHearts[currentHearts - 1];
             rightmostHeart.SetActive(false);
             currentHearts--;
+            
             //RemainigHearts.RemoveAt(RemainigHearts.Count - 1);
             StartCoroutine(DamageTakingAnimation());
 
@@ -290,6 +296,8 @@ public class Girl : MonoBehaviour
     
     //Functions Added by Connor Simmons:
 
+    //When the character collides with an object, checks if the object is any of the power ups, if so, calls
+    //the corresponding functions and then destroys the powerup game object
     public void OnTriggerEnter2D(Collider2D other)
     {
 
@@ -315,12 +323,14 @@ public class Girl : MonoBehaviour
         }
     }
 
+    //Calls the functions that control the platform invulnerability logic
     private void PlatformInvulnerable()
     {
         GlobalManager.Instance.platformInvulnerable = true;
         StartCoroutine(PlatformInvulnDuration());
     }
 
+    //Updates the currentHP value of the character and updates the game's UI to match
     private void HealItem()
     {
         if (currentHearts == maxHearts)
@@ -334,11 +344,14 @@ public class Girl : MonoBehaviour
         }
     }
 
+    //Pushes the character down when a platform is placed on top of girl character (meant to punish you for
+    //trying to exploit the physics system as was previously possible)
     public void PushCharacterDown()
     {
         transform.position = new Vector3(transform.position.x, transform.position.y - distPushedDown, transform.position.z);
     }
 
+    //while the stun powerup is active, shoots a laser at the robot on a set interval 
     IEnumerator StunShooter()
     {
         while (canStunRobot)
@@ -349,7 +362,7 @@ public class Girl : MonoBehaviour
         }
     }
 
-
+    //Waits for length of stun powerup duration, then sets bool to false, ending the powerup
     IEnumerator StunShooterDuration()
     {
         yield return new WaitForSeconds(stunShooterDuration);
@@ -357,6 +370,7 @@ public class Girl : MonoBehaviour
     }
 
 
+    //Waits for length of platform invulnerability powerup then sets the bool in GlobalManager to false
     IEnumerator PlatformInvulnDuration()
     {
         yield return new WaitForSeconds(platformInvulnDuration);
